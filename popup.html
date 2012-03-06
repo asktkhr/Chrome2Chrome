@@ -4,7 +4,13 @@
   var pusher = new Pusher('app-key');
   var channel = pusher.subscribe('my_channel');
   channel.bind('my_event', function(data) {
-    alert(data);
+    chrome.tabs.create(
+      {
+        url: data,
+        selected: true
+      },
+      function(tab) {
+      });
   });
 </script>
 hello,world!
