@@ -1,16 +1,15 @@
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script type="text/javascript" src="http://js.pusher.com/1.11/pusher.min.js"></script>
-<script type="text/javascript">
-  var pusher = new Pusher('app-key');
-  var channel = pusher.subscribe('my_channel');
-  channel.bind('my_event', function(data) {
-    chrome.tabs.create(
-      {
-        url: data,
-        selected: true
-      },
-      function(tab) {
-      });
-  });
-</script>
-hello,world!
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://js.pusher.com/1.11/pusher.min.js"></script>
+    <script type="text/javascript" src="receiver.js"> </script>
+    <script type="text/javascript" src="sender.js"> </script>
+  </head>
+  <body>
+    <div id="container">
+    </div>
+    <button id="push">push</button>
+  </body>
+</html>
