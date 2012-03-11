@@ -4,9 +4,8 @@ function isUrl(s) {
 }
 
 (function(){
-  var pusher = new Pusher('app-key');
-  var channel = pusher.subscribe('my_channel');
-  channel.bind('my_event', function(data) {
+  var channel = pusher.subscribe('channel_name');
+  channel.bind('event_name', function(data) {
     if(isUrl(data)){
       chrome.tabs.create(
         {

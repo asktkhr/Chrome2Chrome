@@ -1,0 +1,15 @@
+<script type="text/javascript" src="http://js.pusher.com/1.11/pusher.min.js"></script>
+<script type="text/javascript">
+var pusher = new Pusher('app-key');
+var socketId = null;
+var status = null;
+
+(function(){
+  pusher.connection.bind('connected', function() {
+    status = "connected";
+    socketId = pusher.connection.socket_id;
+  });
+})();
+</script>
+<script type="text/javascript" src="receiver.js"></script>
+
