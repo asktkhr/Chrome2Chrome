@@ -1,11 +1,12 @@
 function enablePushUrl(){
+  displayReceivers();
   var url = "";
 　chrome.tabs.getSelected(null, function(tab) {
     url = tab.url;
   });
   $('div#pc_name').remove()
-  $('div#container').prepend('<div id=status></div>')
-  $('div#status').text(bg.pusher.connection.state);
+  $('#status_label').append('<span id=status></span>')
+  $('#status').text(bg.pusher.connection.state);
   $("button#push").text('push')
   $("button#push").unbind('click')
 
@@ -34,6 +35,15 @@ function enablePushUrl(){
   });
 }
 
+function displayReceivers(){
+  $.get(
+    "http://localhost:3000/websocket/receivers",
+    //"http://push-server.herokuapp.com/websocket/receivers",
+    function(data, status) {
+      $('div#container').prepend(data);
+    }
+  );
+}
 
 function register(){
   $("div#container").html("<div id='pc_name'>pc name: <input id=pc_name type='text'></div>");
