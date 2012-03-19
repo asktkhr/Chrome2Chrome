@@ -5,7 +5,7 @@ function enablePushUrl(){
   });
   $('div#pc_name').remove()
   $('div#container').prepend('<div id=status></div>')
-  $('div#status').text(bg.pusher.connection.status);
+  $('div#status').text(bg.pusher.connection.state);
   $("button#push").text('push')
   $("button#push").unbind('click')
 
@@ -22,10 +22,10 @@ function enablePushUrl(){
       },
       function(data, status) {
         if(status == 'success'){
-          $('div#status').text(bg.pusher.connection.status);
+          $('div#status').text(bg.pusher.connection.state);
         }
         else {
-          $('div#status').text(bg.pusher.connection.status);
+          $('div#status').text(bg.pusher.connection.state);
         }
         button.removeAttr("disabled");
       },
