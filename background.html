@@ -6,7 +6,7 @@ var status = null;
 
 (function(){
   pusher.connection.bind('connected', function() {
-    status = "connected";
+    status = pusher.connection.state;
     socketId = pusher.connection.socket_id;
   });
 })();
