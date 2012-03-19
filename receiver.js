@@ -3,13 +3,20 @@ function isUrl(s) {
         return regexp.test(s);
 }
 
+function isRecipient(receivers){
+  console.log(receivers);
+  var myName = localStorage.registerName;
+  return receivers.indexOf(myName) != -1;
+}
+
 (function(){
-  var channel = pusher.subscribe('channel_name');
-  channel.bind('event_name', function(data) {
-    if(isUrl(data)){
+  var channel = pusher.subscribe('chrome2chrome');
+  channel.bind('open_url', function(data) {
+    console.log(data);
+    if(isUrl(data.url) && isRecipient(data.receivers)){
       chrome.tabs.create(
         {
-          url: data,
+          url: data.url,
           selected: true
         },
         function(tab) {

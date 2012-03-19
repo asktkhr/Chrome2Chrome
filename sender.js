@@ -11,7 +11,11 @@ function enablePushUrl(){
   $("button#push").unbind('click')
 
   $("button#push").bind('click', function(event) {
-    $('div#status').text("sending...");
+    var receivers = [];
+    $('input:checked').each(function(){
+      receivers.push(this.value);
+    });
+    $('#status').text("sending...");
     var button = $("button#push");
     button.attr("disabled","disabled");
     $.post(
@@ -19,7 +23,7 @@ function enablePushUrl(){
       {
         url: url,
         socket_id: bg.socketId,
-        receivers: [] 
+        receivers: receivers 
       },
       function(data, status) {
         if(status == 'success'){
@@ -50,9 +54,10 @@ function register(){
   $("div#status").remove();
   $("button").text("register");
   $("button").bind('click',function(event){
+    localStorage.registerName = $("input#pc_name").val();
     $.post(
       "http://localhost:3000/websocket/register",
-      { name: $("input#pc_name").val() },
+      { name: localStorage.registerName },
       function(data, status) {
         if(data == 'success') enablePushUrl();
       },
@@ -65,6 +70,7 @@ $(document).ready(
   function(){
     $.get(
       "http://localhost:3000/websocket/register_info",
+      {name: localStorage.registerName},
       function(data, status) {
         if(data == null){
           register();
