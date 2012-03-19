@@ -20,18 +20,14 @@ function enablePushUrl(){
     button.attr("disabled","disabled");
     $.post(
       "http://localhost:3000/websocket/send_url",
+      //"http://push-server.herokuapp.com/websocket/send_url",
       {
         url: url,
         socket_id: bg.socketId,
         receivers: receivers 
       },
       function(data, status) {
-        if(status == 'success'){
-          $('div#status').text(bg.pusher.connection.state);
-        }
-        else {
-          $('div#status').text(bg.pusher.connection.state);
-        }
+        $('#status').text(bg.pusher.connection.state);
         button.removeAttr("disabled");
       },
       "text"
@@ -51,7 +47,7 @@ function displayReceivers(){
 
 function register(){
   $("div#container").html("<div id='pc_name'>pc name: <input id=pc_name type='text'></div>");
-  $("div#status").remove();
+  $("#status_container").remove();
   $("button").text("register");
   $("button").bind('click',function(event){
     localStorage.registerName = $("input#pc_name").val();
