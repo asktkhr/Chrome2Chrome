@@ -39,6 +39,7 @@ function displayReceivers(){
   $.get(
     "http://localhost:3000/websocket/receivers",
     //"http://push-server.herokuapp.com/websocket/receivers",
+    {name: localStorage.registerName},
     function(data, status) {
       $('div#container').prepend(data);
     }
