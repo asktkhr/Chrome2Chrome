@@ -57,7 +57,7 @@ function enablePushUrl(){
 
 function displayReceivers(){
   $.get(
-    "http://localhost:3000/devices/receivers?format=json",
+    "http://localhost:3000/devices/receivers",
     {name: localStorage.registerName},
     function(data, status) {
       $('div#container').prepend(data);
