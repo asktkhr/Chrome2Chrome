@@ -5,6 +5,7 @@ function enablePushUrl(){
     url = tab.url;
   });
   $('div#pc_name').remove()
+  $("#status_container").show();
   $('#status_label').append('<span id=status></span>')
   $('#status').text(bg.pusher.connection.state);
   $("button#push").text('push')
@@ -19,8 +20,7 @@ function enablePushUrl(){
     var button = $("button#push");
     button.attr("disabled","disabled");
     $.post(
-      "http://localhost:3000/websocket/send_url",
-      //"http://push-server.herokuapp.com/websocket/send_url",
+      "http://localhost:3000/message/send_message",
       {
         url: url,
         socket_id: bg.socketId,
@@ -33,12 +33,31 @@ function enablePushUrl(){
       "text"
     );
   });
+
+  $("button#delete").show().bind('click', function(event){
+    var data = {
+      _method : "delete",
+      name : localStorage.registerName
+    }
+
+    $.ajax({
+      url: "http://localhost:3000/devises/delete",
+      type: 'post',
+      data: data
+    })
+    .success(function() {
+      delete localStorage.registerName;
+      location.reload();
+    })
+    .error(function() {
+      alert('error');
+    });
+  });
 }
 
 function displayReceivers(){
   $.get(
-    "http://localhost:3000/websocket/receivers",
-    //"http://push-server.herokuapp.com/websocket/receivers",
+    "http://localhost:3000/devices/receivers?format=json",
     {name: localStorage.registerName},
     function(data, status) {
       $('div#container').prepend(data);
@@ -48,15 +67,17 @@ function displayReceivers(){
 
 function register(){
   $("div#container").html("<div id='pc_name'>pc name: <input id=pc_name type='text'></div>");
-  $("#status_container").remove();
-  $("button").text("register");
-  $("button").bind('click',function(event){
+  $("#status_container").hide();
+  $("button#delete").hide();
+  $("button#push").unbind('click')
+  $("button#push").text("register");
+  $("button#push").bind('click',function(event){
     localStorage.registerName = $("input#pc_name").val();
     $.post(
-      "http://localhost:3000/websocket/register",
+      "http://localhost:3000/devices/register",
       { name: localStorage.registerName },
       function(data, status) {
-        if(data == 'success') enablePushUrl();
+        if(data == 'success') location.reload();
       },
       "text"
     );
@@ -66,7 +87,7 @@ function register(){
 $(document).ready(
   function(){
     $.get(
-      "http://localhost:3000/websocket/register_info",
+      "http://localhost:3000/devices/register_info",
       {name: localStorage.registerName},
       function(data, status) {
         if(data == null){
